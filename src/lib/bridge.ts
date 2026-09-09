@@ -1,9 +1,10 @@
 const BRIDGE = (import.meta.env.VITE_BRIDGE_URL as string | undefined) || "http://127.0.0.1:5050";
+const TOKEN = (import.meta.env.VITE_BRIDGE_TOKEN as string | undefined) || "";
 
 async function post<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(BRIDGE + path, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...(TOKEN ? { "X-Bridge-Token": TOKEN } : {}) },
     body: body ? JSON.stringify(body) : undefined,
   });
   const data = (await res.json()) as T & { errorCode?: string };
@@ -34,7 +35,9 @@ export interface IdentifyResult { matched: boolean; matchId: string | null; scor
 
 export const bridge = {
   status: async (): Promise<{ connected: boolean; busy: boolean }> => {
-    const res = await fetch(`${BRIDGE}/api/v1/device/status`);
+    const res = await fetch(`${BRIDGE}/api/v1/device/status`, {
+      headers: { ...(TOKEN ? { "X-Bridge-Token": TOKEN } : {}) },
+    });
     if (!res.ok) throw new BridgeError("BRIDGE_DOWN");
     return (await res.json()) as { connected: boolean; busy: boolean };
   },

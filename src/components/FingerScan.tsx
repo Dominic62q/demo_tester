@@ -64,10 +64,10 @@ export default function FingerScan({ title, sub, onDone, onCancel }: {
               ? "The reader was busy — wait a second and try this touch again."
               : code === "DEVICE_NOT_FOUND"
                 ? "The reader isn't plugged in — check the cable, then try again."
-                : "That touch didn't take — try it again.",
+                : code === "UNAUTHORIZED"
+                  ? "This page isn't paired with the reader program on this PC."
+                  : "That touch didn't take — try it again.",
       });
-    } finally {
-      inflight.current = false;
     }
   };
 

@@ -15,6 +15,7 @@ function friendly(code: string): string {
     case "CAPTURE_TIMEOUT": return "I didn't catch that — press firmly, hold still a second, try again.";
     case "DEVICE_NOT_FOUND": return "The fingerprint reader isn't plugged in.";
     case "BRIDGE_DOWN": return "The fingerprint program isn't running on this PC.";
+    case "UNAUTHORIZED": return "This page isn't paired with the reader program on this PC.";
     default: return "Something hiccuped — try again.";
   }
 }
