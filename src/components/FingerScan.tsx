@@ -68,6 +68,8 @@ export default function FingerScan({ title, sub, onDone, onCancel }: {
                   ? "This page isn't paired with the reader program on this PC."
                   : "That touch didn't take — try it again.",
       });
+    } finally {
+      inflight.current = false;
     }
   };
 
