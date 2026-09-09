@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  // DEMO rules: open read/write so the kiosk works with no login.
+  // Lock down (Auth + per-role) before any real-world use.
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
